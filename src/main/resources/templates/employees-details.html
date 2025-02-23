@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Details</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        text-align: center;
+    }
+    .container {
+        width: 50%;
+        margin: auto;
+        margin-top: 50px;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        text-align: left;
+    }
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+    .detail {
+        margin: 10px 0;
+    }
+    .back-btn {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .back-btn:hover {
+        background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>👤 Employee Details</h2>
+
+  <div th:if="${employee}">
+    <p class="detail"><strong>First Name:</strong> <span th:text="${employee.firstName}"></span></p>
+    <p class="detail"><strong>Last Name:</strong> <span th:text="${employee.lastName}"></span></p>
+    <p class="detail"><strong>Position:</strong> <span th:text="${employee.position}"></span></p>
+    <p class="detail"><strong>Branch:</strong> <span th:text="${employee.branch}"></span></p>
+  </div>
+
+  <div th:if="${employee == null}" style="color: red; text-align: center;">
+    <p>Employee not found.</p>
+  </div>
+
+  <button onclick="window.history.back()" class="back-btn">⬅ Back</button>
+</div>
+
+</body>
+</html>

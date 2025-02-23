@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rented Cars</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600&display=swap');
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'SF Pro Display', sans-serif;
+        background: linear-gradient(135deg, #f5f5f7, #e8e8eb);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 30px;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 800px;
+        background: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(12px);
+        padding: 25px;
+        border-radius: 20px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        position: relative;
+    }
+
+    /* Back Button */
+    .back-button {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #0071e3;
+        text-decoration: none;
+        padding: 10px 15px;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 50px;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease-in-out;
+        display: flex;
+        align-items: center;
+    }
+
+    .back-button:hover {
+        background: rgba(255, 255, 255, 0.8);
+        transform: scale(1.05);
+    }
+
+    .back-button svg {
+        width: 18px;
+        height: 18px;
+        margin-right: 8px;
+    }
+
+    /* Title */
+    h2 {
+        font-size: 30px;
+        font-weight: 600;
+        color: #1d1d1f;
+        margin-bottom: 20px;
+    }
+
+    /* Car List */
+    .car-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .car-box {
+        width: 280px;
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(10px);
+        padding: 20px;
+        border-radius: 18px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease-in-out;
+        text-align: left;
+    }
+
+    .car-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+        background: rgba(255, 255, 255, 0.8);
+    }
+
+    .car-box p {
+        font-size: 16px;
+        color: #333;
+        margin: 5px 0;
+    }
+
+    /* Buttons */
+    .btn {
+        padding: 12px 16px;
+        font-size: 16px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        border-radius: 12px;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+        margin-top: 12px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-return {
+        background-color: #ff3b30;
+        color: white;
+    }
+
+    .btn-return:hover {
+        background-color: #d62828;
+        transform: scale(1.05);
+    }
+
+    /* Responsive */
+    @media screen and (max-width: 600px) {
+        .container {
+            width: 95%;
+            padding: 20px;
+        }
+
+        .back-button {
+            top: 10px;
+            left: 10px;
+            font-size: 14px;
+            padding: 8px 12px;
+        }
+
+        .back-button svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        h2 {
+            font-size: 26px;
+        }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Apple-Like Back Button -->
+<a href="/management" class="back-button">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M15 18l-6-6 6-6"></path>
+  </svg>
+  Back to Management
+</a>
+
+<div class="container">
+  <!-- Title -->
+  <h2>🚗 Rented Cars</h2>
+
+  <div class="car-list">
+    <div th:each="rental : ${rentals}" class="car-box">
+      <p><strong>Car:</strong> <span th:text="${rental.car.brand} + ' ' + ${rental.car.model}"></span></p>
+      <p><strong>Serial Number:</strong> <span th:text="${rental.car.serialNumber}"></span></p>
+      <p><strong>Customer:</strong> <span th:text="${rental.customer.firstName} + ' ' + ${rental.customer.lastName}"></span></p>
+      <p><strong>Rental Days:</strong> <span th:text="${rental.rentalDays}"></span></p>
+      <p><strong>Total Price:</strong> $<span th:text="${rental.getTotalPrice()}"></span></p>
+      <p><strong>Pickup Branch:</strong> <span th:text="${rental.pickupBranch}"></span></p>
+      <p><strong>Return Branch:</strong> <span th:text="${rental.returnBranch}"></span></p>
+
+      <a th:href="@{/rentals/return/{id}(id=${rental.id})}" class="btn btn-return">Return Car</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

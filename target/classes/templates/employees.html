@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 90%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 26px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-back:hover {
+            background-color: #5a6268;
+        }
+
+        .btn-add {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-add:hover {
+            background-color: #218838;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .edit-button, .delete-button {
+            padding: 8px 12px;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .edit-button {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .edit-button:hover {
+            background-color: #e0a800;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>👥 Employee Management</h2>
+
+    <div class="buttons">
+        <a href="/management" class="btn btn-back">⬅ Back</a>
+        <a href="/employees/add" class="btn btn-add">➕ Add Employee</a>
+    </div>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Position</th>
+            <th>Branch</th>
+            <th></th>
+        </tr>
+        <tr th:each="employee : ${employees}">
+            <td th:text="${employee.firstName}"></td>
+            <td th:text="${employee.lastName}"></td>
+            <td th:text="${employee.position}"></td>
+            <td th:text="${employee.branch}"></td>
+            <td>
+                <a th:href="@{/employees/edit/{id}(id=${employee.id})}">
+                    <button class="edit-button">Edit</button>
+                </a>
+                <form th:action="@{/employees/delete/{id}(id=${employee.id})}" method="post" style="display:inline;">
+                    <button type="submit" class="delete-button">Delete</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

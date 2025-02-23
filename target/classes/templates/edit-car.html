@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Edit Car</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+     body {
+     font-family: 'Inter', sans-serif;
+     margin: 20px;
+     background-color: #f8f9fa;
+     }
+     .container {
+     max-width: 400px;
+     background: white;
+     padding: 20px;
+     border-radius: 12px;
+     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+     margin: 50px auto;
+     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+     h2 {
+     text-align: center;
+     color: #333;
+     font-weight: 600;
+     }
+     form {
+     display: flex;
+     flex-direction: column;
+     }
+     input, select {
+     margin-bottom: 10px;
+     padding: 8px; font-size: 14px;
+     border-radius: 8px;
+         border: 1px solid #ddd;
+         background-color: #f9f9f9;
+         transition: 0.3s;}
+     label {
+     margin-bottom: 10px;
+     padding: 8px;
+     font-size: 14px;
+     font-weight: 600;
+         color: #444;
+         }
+     /* Buttons Container */
+     .buttons-container {
+         display: flex;
+         justify-content: space-between;
+         margin-top: 20px;
+     }
+
+     .btn {
+         padding: 14px;
+         font-size: 16px;
+         border: none;
+         cursor: pointer;
+         text-align: center;
+         border-radius: 10px;
+         font-weight: 600;
+         transition: all 0.3s ease;
+         flex: 1;
+         margin: 5px;
+     }
+
+     .btn-submit {
+         background-color: #28a745;
+         color: white;
+     }
+
+     .btn-submit:hover {
+         background-color: #218838;
+         box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2);
+     }
+
+     .btn-cancel {
+         background-color: #dc3545;
+         color: white;
+         text-decoration: none;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+     }
+
+     .btn-cancel:hover {
+         background-color: #c82333;
+         box-shadow: 0 4px 10px rgba(220, 53, 69, 0.2);
+     }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Edit Car</h2>
+  <form th:action="@{/cars/update}" th:object="${car}" method="post">
+    <input type="hidden" th:field="*{id}">
+
+    <label>Serial Number:</label>
+    <input type="text" th:field="*{serialNumber}" required>
+
+    <label>Brand:</label>
+    <input type="text" th:field="*{brand}" required>
+
+    <label>Model:</label>
+    <input type="text" th:field="*{model}" required>
+
+    <label>Year:</label>
+    <input type="number" th:field="*{year}" required>
+
+    <label>Color:</label>
+    <input type="text" th:field="*{color}" required>
+
+    <label>Fuel Type:</label>
+    <select th:field="*{fuelType}" required>
+      <option value="Gasoline">Gasoline</option>
+      <option value="Diesel">Diesel</option>
+      <option value="Electric">Electric</option>
+      <option value="Hybrid">Hybrid</option>
+    </select>
+
+    <label>Transmission:</label>
+    <select th:field="*{transmissionType}" required>
+      <option value="Automatic">Automatic</option>
+      <option value="Manual">Manual</option>
+    </select>
+
+    <label>Mileage (km):</label>
+    <input type="number" th:field="*{mileage}" required>
+
+    <label>Category:</label>
+    <select th:field="*{category}" required>
+      <option value="Sedan">Sedan</option>
+      <option value="SUV">SUV</option>
+      <option value="Hatchback">Hatchback</option>
+      <option value="Coupe">Coupe</option>
+      <option value="Convertible">Convertible</option>
+      <option value="Truck">Truck</option>
+    </select>
+
+    <label>Branch:</label>
+    <select th:field="*{branch}" required>
+      <option value="Tirana">Tirana</option>
+      <option value="Durres">Durres</option>
+      <option value="Gjirokaster">Gjirokaster</option>
+    </select>
+
+    <label>Price Per Day ($):</label>
+    <input type="number" th:field="*{pricePerDay}" required step="0.01">
+
+    <button type="submit" class="btn btn-submit">Save Changes</button>
+  </form>
+  <a href="/cars" class="btn btn-cancel">Cancel</a>
+</div>
+
+</body>
+</html>

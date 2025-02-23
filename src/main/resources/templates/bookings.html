@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Car</title>
+    <style>
+        body {
+            font-family: 'SF Pro Display', sans-serif;
+            background: linear-gradient(135deg, #f5f5f7, #e8e8eb);
+            text-align: center;
+
+        }
+        .container {
+           width: 50%;
+            margin: auto;
+            margin-top: 50px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+                  border-radius: 20px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 20px;
+            text-align: left;
+        }
+        h2 {   font-size: 28px;
+            color: #1d1d1f;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+            }
+        select, input {
+              width: 95%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            color: #1d1d1f;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+            transition: 0.3s ease-in-out;
+        }
+     select:hover, input:hover, select:focus, input:focus {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid #0071e3;
+        }
+
+        button {
+            background-color: #0071e3;
+            color: white;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            border-radius: 12px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        /* Apple-Like Back Button */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            font-weight: 600;
+            color: #0071e3;
+            text-decoration: none;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50px;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.05);
+        }
+
+        .back-button svg {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+        }
+    </style>
+    <script>
+        function calculateRentalDays() {
+            let startDate = new Date(document.getElementById("startDate").value);
+            let endDate = new Date(document.getElementById("endDate").value);
+            if (startDate && endDate && endDate >= startDate) {
+                let timeDiff = endDate - startDate;
+                let days = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+                document.getElementById("rentalDays").value = days > 0 ? days : 1; // At least 1 day rental
+            } else {
+                document.getElementById("rentalDays").value = "";
+            }
+        }
+    </script>
+</head>
+<body>
+<!-- Apple-Like Back Button -->
+<a href="/home" class="back-button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 18l-6-6 6-6"></path>
+    </svg>
+    Back to Home
+</a>
+
+<div class="container">
+    <h2>🚗 Book a Car</h2>
+
+    <!-- Branch Filter Form -->
+    <form method="get">
+        <label>Filter by Branch:</label>
+        <select name="branch" onchange="this.form.submit()">
+            <option value="">All Branches</option>
+            <option value="Tirana" th:selected="${branch == 'Tirana'}">Tirana</option>
+            <option value="Durres" th:selected="${branch == 'Durres'}">Durres</option>
+            <option value="Gjirokaster" th:selected="${branch == 'Gjirokaster'}">Gjirokaster</option>
+        </select>
+    </form>
+
+    <!-- Booking Form -->
+    <form th:action="@{/bookings/confirm}" method="post">
+        <label>Select Car:</label>
+        <select name="carId" required>
+            <option th:each="car : ${cars}"
+                    th:value="${car.id}"
+                    th:text="${car.brand} + ' ' + ${car.model} + ' (Serial: ' + ${car.serialNumber} + ')'">
+            </option>
+        </select>
+
+        <label>Select Customer:</label>
+        <select name="customerId" required>
+            <option th:each="customer : ${customers}"
+                    th:value="${customer.id}"
+                    th:text="${customer.firstName} + ' ' + ${customer.lastName}">
+            </option>
+        </select>
+
+        <label>Pickup Branch:</label>
+        <select name="pickupBranch" required>
+            <option value="Tirana">Tirana</option>
+            <option value="Durres">Durres</option>
+            <option value="Gjirokaster">Gjirokaster</option>
+        </select>
+
+        <label>Return Branch:</label>
+        <select name="returnBranch" required>
+            <option value="Tirana">Tirana</option>
+            <option value="Durres">Durres</option>
+            <option value="Gjirokaster">Gjirokaster</option>
+        </select>
+
+        <label>Start Date:</label>
+        <input type="date" id="startDate" name="startDate" required onchange="calculateRentalDays()">
+
+        <label>End Date:</label>
+        <input type="date" id="endDate" name="endDate" required onchange="calculateRentalDays()">
+
+        <label>Rental Days:</label>
+        <input type="text" id="rentalDays" name="rentalDays" readonly>
+
+        <button type="submit">Confirm Booking</button>
+    </form>
+</div>
+
+</body>
+</html>

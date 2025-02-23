@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Customer</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 400px;
+        margin: 50px auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+        color: #333;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+    input, label {
+        margin-bottom: 10px;
+        padding: 8px;
+        font-size: 14px;
+        width: 100%;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+    .btn {
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        text-align: center;
+        width: 100%;
+        margin-top: 10px;
+    }
+    .btn-submit {
+        background-color: #007bff;
+        color: white;
+    }
+    .btn-submit:hover {
+        background-color: #0056b3;
+    }
+    .btn-cancel {
+        background-color: gray;
+        color: white;
+        display: block;
+        text-decoration: none;
+        padding: 10px;
+        text-align: center;
+        border-radius: 5px;
+        margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>✏️ Edit Customer</h2>
+  <form th:action="@{/customers/update}" th:object="${customer}" method="post">
+
+    <!-- Hidden ID Field -->
+    <input type="hidden" th:field="*{id}">
+
+    <label>First Name:</label>
+    <input type="text" th:field="*{firstName}" placeholder="Enter First Name" required>
+
+    <label>Last Name:</label>
+    <input type="text" th:field="*{lastName}" placeholder="Enter Last Name" required>
+
+    <label>Email:</label>
+    <input type="email" th:field="*{email}" placeholder="Enter Email" required>
+
+    <label>Phone Number:</label>
+    <input type="text" th:field="*{phoneNumber}" placeholder="Enter Phone Number" required>
+
+    <label>Personal Number:</label>
+    <input type="text" th:field="*{personalNumber}" placeholder="Enter Personal Number" required>
+
+    <button type="submit" class="btn btn-submit">Update Customer</button>
+  </form>
+  <a href="/customers" class="btn-cancel">Cancel</a>
+</div>
+
+</body>
+</html>

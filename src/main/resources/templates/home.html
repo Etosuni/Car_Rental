@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar with Video on Right</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            font-family: Arial, sans-serif;
+            display: flex;
+            overflow: hidden;
+            background-color: #fbeee6; /* Background color applied */
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        /* Video Container - Ensures Proper Fit */
+        .video-container {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: calc(100% - 300px); /* Video fills remaining space */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Keeps aspect ratio without zooming */
+            filter: brightness(101%);
+        }
+
+        /* Profile Section */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-pic {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: gray;
+            margin-bottom: 10px;
+        }
+
+        .username {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+            flex-grow: 1;
+        }
+
+        .nav-buttons button {
+            background-color: rgba(0, 0, 0, 0.05);
+            border: none;
+            text-align: left;
+            font-size: 16px;
+            padding: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #333;
+            width: 100%;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .nav-buttons button:hover {
+            background-color: rgba(0, 0, 0, 0.15);
+        }
+
+        /* Logout Button */
+        .logout {
+            margin-top: auto;
+        }
+
+        .logout button {
+            margin-bottom: 44px;
+            background-color: red;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .logout button:hover {
+            background-color: darkred;
+        }
+
+        /* Content Area */
+        .content {
+            margin-left: 300px;
+            padding: 40px;
+            color: black; /* Black text for better readability */
+            text-shadow: none;
+            font-size: 24px;
+            width: calc(100% - 600px); /* Ensures content is centered */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .content h1 {
+            font-size: 36px;
+            color: #333;
+        }
+
+        .content p {
+            font-size: 18px;
+            max-width: 600px;
+            line-height: 1.5;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <!-- Profile Section -->
+    <div class="profile-section">
+        <div class="profile-pic"></div> <!-- Placeholder for profile image -->
+        <div class="username" th:text="${username}">User Name</div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="nav-buttons">
+        <button onclick="location.href='/home'">🏠 Home </button>
+        <button onclick="location.href='/rentals'">🚗 Rented Car </button>
+        <button onclick="location.href='/bookings'">📅 Bookings</button>
+        <button onclick="location.href='/revenue'">💰 Revenue Statistics</button>
+        <button onclick="location.href='/management'">👥 Management</button>
+    </div>
+
+    <!-- Logout Button -->
+    <div class="logout">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+</div>
+
+<!-- Video Background on Right Side -->
+<div class="video-container">
+    <video autoplay loop muted playsinline>
+        <source src="/videos/car-rental.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+
+
+</body>
+</html>
